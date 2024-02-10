@@ -15,16 +15,15 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import DescriptionIcon from '@mui/icons-material/Description';
 import {NavLink, useNavigate} from 'react-router-dom'
+import { UserContext } from '../../context/UserContext';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 export default function Sidebar({ children }) {
 
-    const navigate = useNavigate()
-    const allprojectsbutton = () => {
-        navigate('/allprojects')
-    }
-
+    const { logout } = useContext(UserContext);
     return (
         <>
             <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -34,6 +33,7 @@ export default function Sidebar({ children }) {
                         <Typography variant="h6" noWrap component="div">
                             Welcome Developer
                         </Typography>
+                        <Link to='/' onClick={logout} className='ml-auto hover:text-white'>Logout</Link>
                     </Toolbar>
                 </AppBar>
                 <Drawer

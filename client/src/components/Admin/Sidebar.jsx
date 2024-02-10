@@ -13,10 +13,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { UserContext } from '../../context/UserContext';
+import { useContext } from 'react';
+import { Link,NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 export default function Sidebar({ children }) {
+    const { logout } = useContext(UserContext);
     return (
         <>
             <Box sx={{ display: 'flex',minHeight:'100vh' }}>
@@ -26,6 +30,7 @@ export default function Sidebar({ children }) {
                         <Typography variant="h6" noWrap component="div">
                             Welcome Admin 
                         </Typography>
+                        <Link to='/' onClick={logout} className='ml-auto hover:text-white'>Logout</Link>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -38,7 +43,7 @@ export default function Sidebar({ children }) {
                 >
                     <Toolbar />
                     <Box sx={{ overflow: 'auto' }}>
-                        <List>
+                        {/* <List>
                             {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                                 <ListItem key={text} disablePadding>
                                     <ListItemButton>
@@ -50,18 +55,23 @@ export default function Sidebar({ children }) {
                                 </ListItem>
                             ))}
                         </List>
-                        <Divider />
+                        <Divider /> */}
                         <List>
-                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
+                            <NavLink to='/' exact>
+                                <ListItemButton>
+                                    <ListItemText primary='Dashboard' />
+                                </ListItemButton>
+                            </NavLink>
+                            <NavLink to='/allusers' exact>
+                                <ListItemButton>
+                                    <ListItemText primary='All Users' />
+                                </ListItemButton>
+                            </NavLink>
+                            <NavLink to='/admin/allstakeholder' exact>
+                                <ListItemButton>
+                                    <ListItemText primary='All Stakeholders' />
+                                </ListItemButton>
+                            </NavLink>
                         </List>
                     </Box>
                 </Drawer>
