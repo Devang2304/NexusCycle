@@ -11,11 +11,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    features:[
-        {
-            
-        }
-    ],
+    features:{
+        type: Array,
+        default: []
+    },
     scrumMaster: {
         type: String,
         default:null
