@@ -18,7 +18,7 @@ const projectSchema = new mongoose.Schema({
     ],
     scrumMaster: {
         type: String,
-        required: true
+        default:null
     },
     developers: [
         {
