@@ -19,12 +19,12 @@ const drawerWidth = 240;
 export default function Sidebar({ children }) {
     return (
         <>
-            <Box sx={{ display: 'flex',minHeight:'100vh' }}>
+            <Box sx={{ display: 'flex', minHeight: '100vh' }}>
                 <CssBaseline />
                 <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Toolbar>
                         <Typography variant="h6" noWrap component="div">
-                            Welcome Scrum Master
+                            Welcome Developer
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -32,6 +32,7 @@ export default function Sidebar({ children }) {
                     variant="permanent"
                     sx={{
                         width: drawerWidth,
+                        bgcolor: 'primary.main',
                         flexShrink: 0,
                         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', bgcolor: '#fafafa'},
                     }}
@@ -69,7 +70,7 @@ export default function Sidebar({ children }) {
                     <div className='mt-14'></div>
                     {/* <div style={{ minHeight: '100vh' }}> */}
 
-                        {children}
+                    {children}
                     {/* </div> */}
                 </Box>
             </Box>
