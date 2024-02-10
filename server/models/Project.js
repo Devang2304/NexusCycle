@@ -2,33 +2,25 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const scrumMasterSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password :{
-        type: String,
-        required: true
-    },
-    phone: {
-        type: Number,
-        required: true
-    },
-    profilePicture: {
+    description: {
         type: String,
         default: ""
     },
-    role: {
+    features:[
+        {
+            
+        }
+    ],
+    scrumMaster: {
         type: String,
-        default: "scrummaster"
+        required: true
     },
-    project: [
+    developers: [
         {
             type: String,
             default: null
@@ -40,4 +32,4 @@ const scrumMasterSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("ScrumMaster", scrumMasterSchema);
+module.exports = mongoose.model("Project", projectSchema);
