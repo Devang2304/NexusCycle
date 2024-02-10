@@ -13,10 +13,18 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import DescriptionIcon from '@mui/icons-material/Description';
+import {NavLink, useNavigate} from 'react-router-dom'
 
 const drawerWidth = 240;
 
 export default function Sidebar({ children }) {
+
+    const navigate = useNavigate()
+    const allprojectsbutton = () => {
+        navigate('/allprojects')
+    }
+
     return (
         <>
             <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -40,19 +48,17 @@ export default function Sidebar({ children }) {
                     <Toolbar />
                     <Box sx={{ overflow: 'auto' }}>
                         <List>
-                            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
+                            <NavLink to='/allprojects'>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <DescriptionIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="All projects" />
+                                </ListItemButton>
+                            </NavLink>
                         </List>
                         <Divider />
-                        <List>
+                        {/* <List>
                             {['All mail', 'Trash', 'Spam'].map((text, index) => (
                                 <ListItem key={text} disablePadding>
                                     <ListItemButton>
@@ -63,7 +69,7 @@ export default function Sidebar({ children }) {
                                     </ListItemButton>
                                 </ListItem>
                             ))}
-                        </List>
+                        </List> */}
                     </Box>
                 </Drawer>
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
