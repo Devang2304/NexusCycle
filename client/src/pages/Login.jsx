@@ -17,6 +17,7 @@ export default function Login({ setIsAuth }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [userDataSignUp, setUserDataSignUp] = useState({
+    company: "",
     name: "",
     email: "",
     password: "",
@@ -93,7 +94,7 @@ export default function Login({ setIsAuth }) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const base64Image = event.target.result;
-        userDataSignUp({ ...userDataSignUp, profilePicture: base64Image });
+        setUserDataSignUp({ ...userDataSignUp, profilePicture: base64Image });
       };
       reader.readAsDataURL(file);
     }
@@ -163,7 +164,7 @@ export default function Login({ setIsAuth }) {
                         type="radio"
                         name="role"
                         id="register-checkbox-1"
-                        value="owner"
+                        value="admin"
                         onChange={(e) => {
                           setUserData({
                             ...userData,
@@ -222,37 +223,6 @@ export default function Login({ setIsAuth }) {
                   <button type="submit" value="Login" className="btn123">
                     Sign In
                   </button>
-                  <p className="social-text123">Or Sign in to our Community</p>
-                  <div className="social-media123">
-                    <a
-                      target="_blank"
-                      href="https://www.facebook.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-facebook"></i>
-                    </a>
-                    <a
-                      target="_blank"
-                      href="https://twitter.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-twitter"></i>
-                    </a>
-                    <a
-                      target="_blank"
-                      href="https://www.google.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-google"></i>
-                    </a>
-                    <a
-                      target="_blank"
-                      href="https://in.linkedin.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-linkedin-in"></i>
-                    </a>
-                  </div>
                   <p className="account-text">
                     Don't have an account?{" "}
                     <Link
@@ -316,14 +286,6 @@ export default function Login({ setIsAuth }) {
                       required
                     />
                   </div>
-                  <div>To put choose picture</div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="profilePicture"
-                    onChange={handleImageUpload}
-                    required
-                  />
                   <div className="register-checkboxes">
                     <span>Register As: </span>
                     <span>
@@ -331,10 +293,10 @@ export default function Login({ setIsAuth }) {
                         type="radio"
                         name="role"
                         id="register-checkbox-11"
-                        value="owner"
+                        value="admin"
                         onChange={(e) => {
-                          setUserData({
-                            ...userData,
+                          setUserDataSignUp({
+                            ...userDataSignUp,
                             role: e.target.value,
                           });
                         }}
@@ -348,8 +310,8 @@ export default function Login({ setIsAuth }) {
                         id="register-checkbox-12"
                         value="customer"
                         onChange={(e) => {
-                          setUserData({
-                            ...userData,
+                          setUserDataSignUp({
+                            ...userDataSignUp,
                             role: e.target.value,
                           });
                         }}
@@ -357,42 +319,33 @@ export default function Login({ setIsAuth }) {
                       <label htmlFor="register-checkbox-12">Customer</label>
                     </span>
                   </div>
+                  {
+                    userDataSignUp.role === "admin" && (
+                      <div className="input-field">
+                        <i className="fas fa-building"></i>
+                        <input
+                          type="text"
+                          placeholder="Company"
+                          id="sign_up_company"
+                          onChange={handleChange_sign_up}
+                          name="company"
+                          value={userDataSignUp.company}
+                          required
+                        />
+                      </div>
+                    ) 
+                  }
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="profilePicture"
+                    onChange={handleImageUpload}
+                    required
+                  />
                   <button type="submit" value="Sign up" className="btn123">
                     Sign Up
                   </button>
-                  <p className="social-text123">
-                    Or Sign in with social platform
-                  </p>
-                  <div className="social-media123">
-                    <a
-                      target="_blank"
-                      href="https://www.facebook.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-facebook"></i>
-                    </a>
-                    <a
-                      target="_blank"
-                      href="https://twitter.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-twitter"></i>
-                    </a>
-                    <a
-                      target="_blank"
-                      href="https://www.google.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-google"></i>
-                    </a>
-                    <a
-                      target="_blank"
-                      href="https://in.linkedin.com/"
-                      className="social-icon123"
-                    >
-                      <i className="fab fa-linkedin-in"></i>
-                    </a>
-                  </div>
+                  
                   <p className="account-text">
                     Already have an account?{" "}
                     <Link id="sign-in-btn2" onClick={onclick_sign_in_btn2}>

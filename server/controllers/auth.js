@@ -1,43 +1,78 @@
 const User = require('../models/User');
 const Admin = require('../models/Admin');
+const ScrumMaster = require('../models/ScrumMaster');
+const Developer = require('../models/Developer');
+const ProductOwner = require('../models/ProductOwner'); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
     console.log("recieved=",req.body)
-    try {
-        // const user1 = await User.findOne({ email: req.body.email });
-        // if(user1){
-        //     return res.status(400).json("email already exists");
-        // }
-        // const salt = await bcrypt.genSalt(10);
-        // const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        // const newUser = new User({
-        //     email: req.body.email,
-        //     password: hashedPassword,
-        // });
-        // const user = await newUser.save();
-        // res.status(200).json(user);
-        const admin = await Admin.findOne({ email: req.body.email });
-        if(admin){
-            return res.status(400).json("Email already exists");
+    if(req.body.role === "admin"){
+        try {
+            const admin = await Admin.findOne({ email: req.body.email });
+            if(admin){
+                return res.status(400).json("Email already exists");
+            }
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt);
+            const newAdmin = new Admin({
+                company: req.body.company,
+                name : req.body.name,
+                email: req.body.email,
+                password: hashedPassword,
+                phone: req.body.phone,
+                profilePicture: req.body.profilePicture
+            });
+            const admin1 = await newAdmin.save();
+            res.status(200).json(admin1);
+        } catch (err) {
+            console.log(err)
+            res.status(500).json(err);
         }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        const newAdmin = new Admin({
-            company: req.body.company,
-            email: req.body.email,
-            password: hashedPassword,
-            phone: req.body.phone,
-            profilePicture: req.body.profilePicture,
-        });
-        const admin1 = await newAdmin.save();
-        res.status(200).json(admin1);
-    } catch (err) {
-        console.log(err)
-        res.status(500).json(err);
     }
-    console.log('register')
+    else{
+        try {
+            const customer = await ProductOwner.findOne({ email: req.body.email });
+            if(customer){
+                return res.status(400).json("Email already exists");
+            }
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(req.body.password, salt);
+            const newCustomer = new ProductOwner({
+                name : req.body.name,
+                email: req.body.email,
+                password: hashedPassword,
+                phone: req.body.phone,
+                profilePicture: req.body.profilePicture
+            });
+            const c = await newCustomer.save();
+            res.status(200).json(c);
+        } catch (err) {
+            console.log(err)
+            res.status(500).json(err);
+        }
+    }
+    // try {
+    //     const admin = await Admin.findOne({ email: req.body.email });
+    //     if(admin){
+    //         return res.status(400).json("Email already exists");
+    //     }
+    //     const salt = await bcrypt.genSalt(10);
+    //     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    //     const newAdmin = new Admin({
+    //         company: req.body.company,
+    //         email: req.body.email,
+    //         password: hashedPassword,
+    //         phone: req.body.phone,
+    //         profilePicture: req.body.profilePicture,
+    //     });
+    //     const admin1 = await newAdmin.save();
+    //     res.status(200).json(admin1);
+    // } catch (err) {
+    //     console.log(err)
+    //     res.status(500).json(err);
+    // }
 }
 
 const login = async (req, res) => {
@@ -56,17 +91,6 @@ const login = async (req, res) => {
             const accessToken = jwt.sign({ id: admin._id, email: admin.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
             res.status(200).json({ ...others, accessToken });
         }
-        // const user = await User.findOne({ email: req.body.email });
-        // if(!user){
-        //     return res.status(404).json("user not found");
-        // } 
-        // const validPassword = await bcrypt.compare(req.body.password, user.password);
-        // if(!validPassword){
-        //     return res.status(400).json("wrong password");
-        // } 
-        // const { password, ...others } = user._doc;
-        // const accessToken = jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
-        // res.status(200).json({ ...others, accessToken });
     }
     catch (err) {
         console.log(err)
