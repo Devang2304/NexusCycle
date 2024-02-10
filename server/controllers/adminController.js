@@ -9,7 +9,7 @@ const getAllProjects = async (req, res) => {
         const projects = await Project.find();
         res.status(200).json(projects);
     } catch (error) {
-        console.log("Error while getting all projects",error);
+        res.status(404).json("Error while getting all projects",error);
     }
 }
 
@@ -18,7 +18,7 @@ const getOnlyNewProjects = async (req, res) => {
         const projects = await Project.find({ scrumMaster: null });
         res.status(200).json(projects);
     } catch (error) {
-        console.log("Error while getting all projects", error);
+        res.status(404).json("Error while getting all projects", error);
     }
 }
 
@@ -34,7 +34,7 @@ const addNewDeveloper = async (req, res) => {
             res.status(200).json(developer);
         }
     } catch (error) {
-        console.log("Error while adding new developer", error);
+        res.status(404).json("Error while adding new developer", error);
     }
 }
 
@@ -50,7 +50,7 @@ const addScrumMaster = async (req, res) => {
             res.status(200).json(scrumMaster);
         }
     } catch (error) {
-        console.log("Error while adding new scrum master", error);
+        res.status(404).json("Error while adding new scrum master", error);
     }
 }
 
@@ -62,7 +62,7 @@ const assignScrumMaster = async (req, res) => {
         await project.save();
         res.status(200).json(project);
     } catch (error) {
-        console.log("Error while assigning scrum master", error);
+        res.status(404).json("Error while assigning scrum master", error);
     }
 }
     
