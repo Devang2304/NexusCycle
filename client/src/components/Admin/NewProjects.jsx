@@ -131,7 +131,7 @@ export default function NewProjects() {
 
     return (
         <>
-            <h1 className='text-5xl mt-10 mb-3'>New Projects</h1>
+            <h1 className='text-3xl mt-10 mb-3'>New Projects</h1>
             {!loading&&<div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     sx={{ maxWidth: '100%' }}
