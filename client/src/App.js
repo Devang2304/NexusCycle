@@ -13,6 +13,9 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminStakeholder from './pages/Admin/AdminStakeholder';
 import AdminUsers from './pages/Admin/AdminUsers';
 import AdminMain from './pages/Admin/AdminMain';
+import ProjectList from './components/ScrumMaster/ProjectList';
+import ProductOwnerMain from './pages/ProductOwner/ProductOwnerMain';
+import ScrumMasterMain from './pages/ScrumMaster/ScrumMasterMain';
 
 function App() {
   const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
@@ -35,6 +38,16 @@ function App() {
       {
         user !== null && user.role === 'admin' && <>
           <AdminMain />
+        </>
+      }
+      {
+        user !== null && user.role === 'scrummaster' && <>
+          <ScrumMasterMain />
+        </>
+      }
+      {
+        user !== null && user.role === 'productowner' && <>
+          <ProductOwnerMain />
         </>
       }
 
