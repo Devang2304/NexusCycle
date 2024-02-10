@@ -111,11 +111,23 @@ const assignScrumMaster = async (req, res) => {
     }
 }
 
+const getAllAccount = async (req, res) => {
+    try {
+        const developers = await Developer.find({ company: req.body.company });
+        const scrumMasters = await ScrumMaster.find({ company: req.body.company });
+        res.status(200).json({ developers, scrumMasters });
+    }
+    catch (error) {
+        res.status(404).json("Error while getting all accounts", error);
+    }
+}
+
 module.exports = {
     getAllProjects,
     getOnlyNewProjects,
     addNewDeveloper,
     addScrumMaster,
     assignScrumMaster,
-    addAccount
+    addAccount,
+    getAllAccount
 };
