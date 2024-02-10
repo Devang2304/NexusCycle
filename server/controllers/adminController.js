@@ -6,8 +6,8 @@ const ScrumMaster = require('../models/ScrumMaster');
 
 const getAllProjects = async (req, res) => {
     try {
-        const projects = await Project.find();
-        res.status(200).json(projects);
+        const projects = await Project.find({});
+        res.status(200).json("projects fetched successfully",projects);
     } catch (error) {
         res.status(404).json("Error while getting all projects",error);
     }
