@@ -28,12 +28,10 @@ const developerSchema = new mongoose.Schema({
         type: String,
         default: "developer"
     },
-    project: [
-        {
-            type: String,
-            default: null
-        }
-    ],
+    project : {
+        type: Array,
+        default: []
+    },
     company: {
         type: String,
         required: true
