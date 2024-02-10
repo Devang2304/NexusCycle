@@ -92,6 +92,19 @@ const login = async (req, res) => {
             const accessToken = jwt.sign({ id: admin._id, email: admin.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
             res.status(200).json({ ...others, accessToken });
         }
+        else if(req.body.role === "productowner"){
+            const customer = await ProductOwner.findOne({ email: req.body.email });
+            if(!customer){
+                return res.status(404).json("customer not found");
+            }
+            const validPassword = await bcrypt.compare(req.body.password, customer.password);
+            if(!validPassword){
+                return res.status(400).json("wrong password");
+            }
+            const { password, ...others } = customer._doc;
+            const accessToken = jwt.sign({ id: customer._id, email: customer.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
+            res.status(200).json({ ...others, accessToken });
+        }
     }
     catch (err) {
         console.log(err)
