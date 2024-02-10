@@ -340,7 +340,7 @@ export default function Login({ setIsAuth }) {
                     accept="image/*"
                     name="profilePicture"
                     onChange={handleImageUpload}
-                    required
+                    // required
                   />
                   <button type="submit" value="Sign up" className="btn123">
                     Sign Up
