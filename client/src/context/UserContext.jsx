@@ -7,6 +7,7 @@ export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(localStorage.getItem("user")) || null
   const [token, setToken] = useState(localStorage.getItem("accessToken")) || null
   const [isAuth, setIsAuth] = useState(false)
+  const [role, setRole] = useState("visitor")
 
   const verifyToken = async () => {
     if (token) {
@@ -24,6 +25,7 @@ export default function UserContextProvider({ children }) {
         localStorage.removeItem("accessToken")
         localStorage.removeItem("user")
         setToken(null)
+        setRole("visitor")
       }
     }
   }
@@ -56,10 +58,11 @@ export default function UserContextProvider({ children }) {
     setToken(null)
     setUser(null)
     setIsAuth(false)
+    setRole("visitor")
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser, token, setToken, isAuth, setIsAuth, updateUser, logout }}>
+    <UserContext.Provider value={{ user, setUser, token, setToken, isAuth, setIsAuth, updateUser, logout,role, setRole }}>
       {children}
     </UserContext.Provider>
   )
