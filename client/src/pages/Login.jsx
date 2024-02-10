@@ -209,7 +209,7 @@ export default function Login({ setIsAuth }) {
                         type="radio"
                         name="role"
                         id="register-checkbox-4"
-                        value="customer"
+                        value="productowner"
                         onChange={(e) => {
                           setUserData({
                             ...userData,
@@ -308,7 +308,7 @@ export default function Login({ setIsAuth }) {
                         type="radio"
                         name="role"
                         id="register-checkbox-12"
-                        value="customer"
+                        value="productowner"
                         onChange={(e) => {
                           setUserDataSignUp({
                             ...userDataSignUp,
