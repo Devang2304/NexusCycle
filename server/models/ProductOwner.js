@@ -25,7 +25,7 @@ const productOwnerSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            default: "customer",
+            default: "productowner",
         },
         project: [{
             type: String,
