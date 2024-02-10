@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react"
 import { UserContext } from "./context/UserContext"
 import Login from './pages/Login';
 import Register from './pages/Register';
+import "./css_files/rohit.css";
 
 function App() {
   const { token, setToken,isAuth, setIsAuth,setUser } = useContext(UserContext)

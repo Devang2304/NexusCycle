@@ -4,14 +4,58 @@ import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import signin from "../assets/signin.png";
+import signup from "../assets/signup.png";
+
 
 export default function Login({ setIsAuth }) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    document.title = "Sangrah | Login";
+  }, []);
   const { token, setToken, setUser } = useContext(UserContext);
   const [localUser, setLocalUser] = useState({ email: "", password: "" })
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [userDataSignUp, setUserDataSignUp] = useState({
+    company: "",
+    email: "",
+    password: "",
+    phone: 0,
+    // profilePicture: "",
+  });
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+  const handleChange_sign_up = (event) => {
+    setUserDataSignUp({
+      ...userDataSignUp,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const handleChange_sign_in = (event) => {
+    setUserData({ ...userData, [event.target.name]: event.target.value });
+  };
+  const onclick_sign_in_btn = () => {
+    const container = document.querySelector(".container123");
+    container.classList.remove("sign-up-mode");
+  };
+  const onclick_sign_in_btn2 = () => {
+    const container = document.querySelector(".container123");
+    container.classList.remove("sign-up-mode2");
+  };
+  const onclick_sign_up_btn = () => {
+    const container = document.querySelector(".container123");
+    container.classList.add("sign-up-mode");
+  };
+  const onclick_sign_up_btn2 = () => {
+    const container = document.querySelector(".container123");
+    container.classList.add("sign-up-mode2");
+  };
 
-  const userLogin = async (event) => {
+  const loginForm = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
@@ -19,13 +63,13 @@ export default function Login({ setIsAuth }) {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(localUser)
+      body: JSON.stringify(userData)
     });
 
     if (response.status === 404) {
-      toast.error("user not found");
+      toast.error("Admin not found");
     } else if (response.status === 400) {
-      toast.warning("wrong password");
+      toast.warning("Invalid credentials");
     } else {
       const data = await response.json();
       setToken(data.accessToken);
@@ -34,7 +78,28 @@ export default function Login({ setIsAuth }) {
       localStorage.setItem("accessToken", data.accessToken);
       toast.success("login successful");
       setIsAuth(true); // Update isAuth state
-      navigate('/dashboard');
+      navigate('/');
+    }
+    setIsLoading(false);
+  };
+
+  const signupForm = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userDataSignUp)
+    });
+
+    if (response.status === 400) {
+      toast.warning("Registration failed");
+    } else {
+      toast.success("Registration successful");
+      onclick_sign_in_btn();
+      onclick_sign_in_btn2();
     }
     setIsLoading(false);
   };
@@ -44,13 +109,260 @@ export default function Login({ setIsAuth }) {
       {/* <div className='text-white'>Login</div> */}
       {!isLoading ? (
         <>
-          <form onSubmit={userLogin} className='flex flex-col w-[300px] max-w-full px-[25px] py-[15px] border-2 border-slate-50 rounded-lg '>
-            <input className='bg-transparent px-3 py-2 focus:outline-0 my-3 border-b-2 border-gray-200' type="email" value={localUser.email} onChange={(e) => setLocalUser({ ...localUser, email: e.target.value })} placeholder="Email" />
-            <input className='bg-transparent px-3 py-2 focus:outline-0 my-3 border-b-2 border-gray-200' type="password" value={localUser.password} onChange={(e) => setLocalUser({ ...localUser, password: e.target.value })} placeholder="Password" />
-            <button className='w-full bg-slate-600 py-2 rounded-sm' type="submit">Login</button>
-          </form>
-          <h1 className='my-5'>Don't have an account?<span className='text-gray-300'> <Link to="/register">Register</Link></span></h1>
-        </>) : (<h1 className='text-3xl text-center'>Loading...</h1>)}
+        <div className="login_body">
+          <div className="container123">
+            <div className="signin-signup">
+              <form onSubmit={loginForm} className="sign-in-form">
+                <h2 className="title123">Sign in</h2>
+                <div className="input-field">
+                  <i className="fas fa-user"></i>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    value={userData.email}
+                    onChange={handleChange_sign_in}
+                    required
+                  />
+                </div>
+                <div className="input-field">
+                  <i className="fas fa-lock"></i>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    autoComplete="current-password"
+                    value={userData.password}
+                    onChange={handleChange_sign_in}
+                    required
+                  />
+                </div>
+                <div className="register-checkboxes">
+                <span>Login As: </span>
+                <span>
+                  <input
+                    type="radio"
+                    name="role"
+                    id="register-checkbox-1"
+                    value="admin"
+                    onChange={(e)=>{
+                      setUserData({
+                        ...userData,
+                        role: e.target.value,
+                      });
+                    }}
+                  />
+                  <label htmlFor="register-checkbox-1">Admin</label>
+                </span>
+                <span>
+                  <input
+                    type="radio"
+                    name="role"
+                    id="register-checkbox-2"
+                    value="manager"
+                    onChange={(e)=>{
+                      setUserData({
+                        ...userData,
+                        role: e.target.value,
+                      });
+                    }}
+                  />
+                  <label htmlFor="register-checkbox-3">Manager</label>
+                </span>
+                <span>
+                  <input
+                    type="radio"
+                    name="role"
+                    id="register-checkbox-3"
+                    value="developer"
+                    onChange={(e)=>{
+                      setUserData({
+                        ...userData,
+                        role: e.target.value,
+                      });
+                    }}
+                  />
+                  <label htmlFor="register-checkbox-3">Developer</label>
+                </span>
+              </div>
+                <button type="submit" value="Login" className="btn123">
+                  Sign In
+                </button>
+                <p className="social-text123">Or Sign in to our Community</p>
+                <div className="social-media123">
+                  <a
+                    target="_blank"
+                    href="https://www.facebook.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-facebook"></i>
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://twitter.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://www.google.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-google"></i>
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://in.linkedin.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                </div>
+                <p className="account-text">
+                  Don't have an account?{" "}
+                  <Link
+                    to="/signup"
+                    id="sign-up-btn2"
+                    onClick={onclick_sign_up_btn2}
+                  >
+                    Sign up
+                  </Link>
+                </p>
+              </form>
+              <form onSubmit={signupForm} className="sign-up-form">
+                <h2 className="title123">Sign up</h2>
+                <div className="input-field">
+                  <i className="fas fa-file-signature"></i>
+                  <input
+                    type="text"
+                    placeholder="Company Name"
+                    id="sign_up_name"
+                    onChange={handleChange_sign_up}
+                    name="company"
+                    value={userDataSignUp.company}
+                    required
+                  />
+                </div>
+                <div className="input-field">
+                  <i className="fas fa-envelope"></i>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    id="sign_up_email"
+                    onChange={handleChange_sign_up}
+                    name="email"
+                    value={userDataSignUp.email}
+                    required
+                  />
+                </div>
+                <div className="input-field">
+                  <i className="fas fa-lock"></i>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    id="sign_up_password"
+                    onChange={handleChange_sign_up}
+                    name="password"
+                    value={userDataSignUp.password}
+                    required
+                  />
+                </div>
+                <div className="input-field">
+                  <i className="fas fa-phone"></i>
+                  <input
+                    type="number"
+                    placeholder="Phone"
+                    id="sign_up_phone"
+                    onChange={handleChange_sign_up}
+                    name="phone"
+                    value={userDataSignUp.phone == 0 ? "" : userDataSignUp.phone}
+                    required
+                  />
+                </div>
+                <button type="submit" value="Sign up" className="btn123">
+                  Sign Up
+                </button>
+                <p className="social-text123">Or Sign in with social platform</p>
+                <div className="social-media123">
+                  <a
+                    target="_blank"
+                    href="https://www.facebook.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-facebook"></i>
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://twitter.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://www.google.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-google"></i>
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://in.linkedin.com/"
+                    className="social-icon123"
+                  >
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                </div>
+                <p className="account-text">
+                  Already have an account?{" "}
+                  <Link
+                    id="sign-in-btn2"
+                    onClick={onclick_sign_in_btn2}
+                  >
+                    Sign in
+                  </Link>
+                </p>
+              </form>
+            </div>
+            <div className="panels-container">
+              <div className="panel left-panel">
+                <div className="content123">
+                  <h3>Member of our Community?</h3>
+                  <p>
+                  Enhance your dining adventure! Sign in for exclusive perks and seamless reservations at JoyJunction - your gateway to extraordinary flavors.
+                  </p>
+                  <button
+                    className="btn123"
+                    id="sign-in-btn"
+                    onClick={onclick_sign_in_btn}
+                  >
+                    Sign in
+                  </button>
+                </div>
+                <img src={signin} alt="" className="image" />
+              </div>
+              <div className="panel right-panel">
+                <div className="content123">
+                  <h3>New to our Community?</h3>
+                  <p>
+                  "Indulge in a world of culinary delights - sign up now to savor exclusive offers, delectable surprises, and a journey of flavors waiting to enchant your taste buds at JoyJunction!"
+                  </p>
+                  <button
+                    className="btn123"
+                    id="sign-up-btn"
+                    onClick={onclick_sign_up_btn}
+                  >
+                    Sign up
+                  </button>
+                </div>
+                <img src={signup} alt="" className="image" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+        ) : (<h1 className='text-3xl text-center'>Loading...</h1>)}
     </>
   );
 }

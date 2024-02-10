@@ -16,10 +16,14 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    profilePicture: {
-        type: String,
+    phone: {
+        type: Number,
         required: true
     },
+    // profilePicture: {
+    //     type: String,
+    //     default: ""
+    // },
     role: {
         type: String,
         default: "admin"
