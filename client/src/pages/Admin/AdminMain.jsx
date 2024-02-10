@@ -11,7 +11,7 @@ export default function AdminMain() {
             <Routes>
                 <Route path='/' element={<AdminDashboard />} />
                 <Route path='/allusers' element={<AdminUsers />} />
-                <Route path='/allstakeholder' element={<AdminStakeholder />} />
+                {/* <Route path='/allstakeholder' element={<AdminStakeholder />} /> */}
             </Routes>
         </Sidebar>
     </>
