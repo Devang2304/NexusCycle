@@ -3,8 +3,8 @@ const router = express.Router();
 
 const { getAllProjects, assignProjects } = require('../controllers/scrumMasterController');
 
-router.get('/scrummaster/getAllProjects', getAllProjects);
-router.post('/', assignProjects);
+router.get('/getAllProjects', getAllProjects);
+router.post('/assignProjects', assignProjects);
 
 
 module.exports = router;
