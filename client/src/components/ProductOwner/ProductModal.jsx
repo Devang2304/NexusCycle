@@ -1,28 +1,41 @@
 import React, { useState } from 'react';
 import { Button, Modal, TextField, Box, Typography } from '@mui/material';
 import { createProject } from '../../api/api';
-
+import { toast } from "react-toastify";
 
 const ProductModal = ({ open, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: '',
     admin_email: '',
     owner_email: '',
+    features: [], 
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === 'features') {
+      setFormData({ ...formData, [e.target.name]: e.target.value.split(',') });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
-  const handleSubmit =async () => {
-    // Add any additional validation logic here
-    const data={
-      name:formData.name,
-      admin_email:formData.admin_email,
-      owner_email:formData.owner_email,
+  const handleSubmit = async () => {
+    const data = {
+      name: formData.name,
+      admin_email: formData.admin_email,
+      owner_email: formData.owner_email,
+      features: formData.features,
+    };
+    try {
+      const res=await createProject(data);
+      toast.success("created project successfully");
+
+      if(res.status===404){
+        toast.error("Error in creating project");
+      }
+    } catch (error) {
+      console.log("Error while creating project", error);
     }
-    await createProject(data);
-    console.log("created project successfully")
     onSubmit(formData);
     onClose();
   };
@@ -69,7 +82,14 @@ const ProductModal = ({ open, onClose, onSubmit }) => {
             fullWidth
             margin="normal"
           />
-          
+          <TextField
+            label="Features (comma-separated)"
+            name="features"
+            value={formData.features.join(',')}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
           <Button variant="contained" color="primary" onClick={handleSubmit}>
             Submit
           </Button>
