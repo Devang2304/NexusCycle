@@ -15,6 +15,7 @@ import AdminUsers from './pages/Admin/AdminUsers';
 import AdminMain from './pages/Admin/AdminMain';
 import ProjectList from './components/ScrumMaster/ProjectList';
 import ProductOwnerMain from './pages/ProductOwner/ProductOwnerMain';
+import ScrumMasterMain from './pages/ScrumMaster/ScrumMasterMain';
 
 function App() {
   const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
@@ -25,7 +26,6 @@ function App() {
 
   return (
     <div className="App">
-      <ProjectList/>
       {
         user === null && <>
           <Routes>
@@ -41,13 +41,13 @@ function App() {
         </>
       }
       {
-        user!==null&&user.role==='scrummaster'&&<>
-        <div>ScrumMaster</div>
+        user !== null && user.role === 'scrummaster' && <>
+          <ScrumMasterMain />
         </>
       }
       {
-        user!==null&&user.role==='productowner'&&<>
-        <ProductOwnerMain/>
+        user !== null && user.role === 'productowner' && <>
+          <ProductOwnerMain />
         </>
       }
 
