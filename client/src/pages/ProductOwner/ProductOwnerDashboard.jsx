@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,29 +7,58 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import ProductModal from '../../components/ProductOwner/ProductModal'
+import { getAllProjectsByOwner } from '../../api/api';
 
 export default function ProductOwnerDashboard() {
   // Sample projects data (replace this with your actual data)
-  
+  const [projectData, setProjectData] = useState([]);
   const [filter, setFilter] = useState('All'); // 'All', 'Completed', 'In Progress'
-  const projects = [
-    { id: 1, name: 'Project 1', status: 'In Progress' },
-    { id: 2, name: 'Project 2', status: 'Completed' },
-    { id: 3, name: 'Project 3', status: 'In Progress' },
-    // Add more projects as needed
-  ];
 
-  const filteredProjects = filter === 'All' ? projects : projects.filter((project) => project.status === filter);
+  useEffect(() => {
 
+    const fetchData = async () => {
+      try {
+        const projectData = await getAllProjectsByOwner();
+        setProjectData(projectData.data);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const filteredProjects = filter === 'All' ? projectData : projectData.filter((project) => project.status === filter);
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleCreateProject = (formData) => {
+    // Handle project creation logic here
+    console.log(formData);
+    handleCloseModal();
+  };
+
+  
   return (
     <>
     
     <div className="p-8">
     <div className="mb-8">
-        <Button variant="contained" color="primary" onClick={() => console.log('Create New Project')}>
-          Create New Project
-        </Button>
+    <Button variant="contained" color="primary" onClick={handleOpenModal}>
+        Create Project
+      </Button>
+      <ProductModal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleCreateProject}
+      />
       </div>
       <div className="mb-8 flex justify-between items-center">
         <h2 className="text-2xl font-bold">Previous Projects</h2>
@@ -57,18 +86,21 @@ export default function ProductOwnerDashboard() {
                 <TableCell>Project Status</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {filteredProjects.map((project, index) => (
+            { projectData && (
+              <TableBody>
+              {filteredProjects.map((projectData, index) => (
                 <TableRow
-                  key={project.id}
+                  key={projectData.id}
                   className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} // Alternating row colors
                 >
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{project.name}</TableCell>
-                  <TableCell>{project.status}</TableCell>
+                  <TableCell>{projectData.name}</TableCell>
+                  <TableCell>{projectData.status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
+            )
+            }
           </Table>
         </TableContainer>
       </div>
