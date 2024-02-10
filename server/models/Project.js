@@ -19,15 +19,21 @@ const projectSchema = new mongoose.Schema({
         type: String,
         default:null
     },
-    developers: [
-        {
-            type: String,
-            default: null
-        }
-    ],
-    company: {
+    developers: {
+        type: Array,
+        default: []
+    },
+    admin_email: {
         type: String,
         required: true
+    },
+    owner_email:{
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        default: "Pending"
     }
 }, { timestamps: true });
 
