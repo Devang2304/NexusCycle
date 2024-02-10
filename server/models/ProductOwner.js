@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+const mongoose = require("mongoose")
 
-const productManagerSchema = new mongoose.Schema(
+const productOwnerSchema = new mongoose.Schema(
     {
-        company: {
+        name: {
             type: String,
             required: true,
         },
@@ -17,14 +15,24 @@ const productManagerSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        phone: {
+            type: Number,
+            required: true,
+        },
         profilePicture: {
             type: String,
             required: true,
         },
         role: {
             type: String,
-            default: "manager",
+            default: "productowner",
         },
+        project: [{
+            type: String,
+            required: true,
+        }],
     },
     { timestamps: true }
-    );
+);
+
+module.exports = mongoose.model("ProductOwner", productOwnerSchema);
