@@ -20,12 +20,14 @@ const adminSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    // profilePicture: {
-    //     type: String,
-    //     default: ""
-    // },
+    profilePicture: {
+        type: String,
+        default: ""
+    },
     role: {
         type: String,
         default: "admin"
     }
 }, { timestamps: true });
+
+module.exports = mongoose.model("Admin", adminSchema);

@@ -8,31 +8,59 @@ import { UserContext } from "./context/UserContext"
 import Login from './pages/Login';
 import Register from './pages/Register';
 import "./css_files/rohit.css";
+import About from './pages/About';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import AdminStakeholder from './pages/Admin/AdminStakeholder';
+import AdminUsers from './pages/Admin/AdminUsers';
 
 function App() {
-  const { token, setToken,isAuth, setIsAuth,setUser } = useContext(UserContext)
+  const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
+
+  useEffect(()=>{
+    console.log("user=",user)
+  },[user])
 
   return (
     <div className="App">
-      <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={!isAuth ? <Login setIsAuth={setIsAuth} /> : <Navigate to={"/dashboard"} />} />
-      <Route path="/register" element={!isAuth ? <Register /> : <Navigate to={"/dashboard"} />} />
-      <Route path="*" element={<h1>Not Found</h1>} />
-    </Routes>
-    <ToastContainer
-      position="top-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss={false}
-      draggable
-      pauseOnHover={false}
-      theme="dark"
-      // transition:Bounce
-    />
+      {
+        user === null && <>
+          <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/login' element={<Login />} />
+          </Routes>
+        </>
+      }
+      {
+        user.role === 'admin' && <>
+          <Routes>
+            <Route path='/' element={<AdminDashboard />} />
+            <Route path='/allusers' element={<AdminUsers />} />
+            <Route path='/allstakeholder' element={<AdminStakeholder />} />
+          </Routes>
+        </>
+      }
+
+      {/* <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={!isAuth ? <Login setIsAuth={setIsAuth} /> : <Navigate to={"/dashboard"} />} />
+        <Route path="/register" element={!isAuth ? <Register /> : <Navigate to={"/dashboard"} />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
+      </Routes> */}
+      <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+      </div>
     </div>
   );
 }

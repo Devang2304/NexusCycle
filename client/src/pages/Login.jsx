@@ -22,7 +22,7 @@ export default function Login({ setIsAuth }) {
     email: "",
     password: "",
     phone: 0,
-    // profilePicture: "",
+    profilePicture: "",
   });
   const [userData, setUserData] = useState({
     email: "",
@@ -74,10 +74,11 @@ export default function Login({ setIsAuth }) {
       const data = await response.json();
       setToken(data.accessToken);
       setUser(data);
+      console.log(data)
+      console.log(data.accessToken)
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("accessToken", data.accessToken);
       toast.success("login successful");
-      setIsAuth(true); // Update isAuth state
       navigate('/');
     }
     setIsLoading(false);
@@ -86,7 +87,7 @@ export default function Login({ setIsAuth }) {
   const signupForm = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/signup`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -95,11 +96,11 @@ export default function Login({ setIsAuth }) {
     });
 
     if (response.status === 400) {
-      toast.warning("Registration failed");
+      toast.warning("Email already exists");
     } else {
       toast.success("Registration successful");
-      onclick_sign_in_btn();
-      onclick_sign_in_btn2();
+      // onclick_sign_in_btn();
+      // onclick_sign_in_btn2();
     }
     setIsLoading(false);
   };
@@ -280,6 +281,7 @@ export default function Login({ setIsAuth }) {
                     required
                   />
                 </div>
+                <div>To put choose picture</div>
                 <button type="submit" value="Sign up" className="btn123">
                   Sign Up
                 </button>
