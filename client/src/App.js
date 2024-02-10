@@ -13,6 +13,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminStakeholder from './pages/Admin/AdminStakeholder';
 import AdminUsers from './pages/Admin/AdminUsers';
 import AdminMain from './pages/Admin/AdminMain';
+import ProductOwnerMain from './pages/ProductOwner/ProductOwnerMain';
 
 function App() {
   const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
@@ -35,6 +36,16 @@ function App() {
       {
         user !== null && user.role === 'admin' && <>
           <AdminMain />
+        </>
+      }
+      {
+        user!==null&&user.role==='scrummaster'&&<>
+        <div>ScrumMaster</div>
+        </>
+      }
+      {
+        user!==null&&user.role==='productowner'&&<>
+        <ProductOwnerMain/>
         </>
       }
 
