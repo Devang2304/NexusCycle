@@ -17,7 +17,7 @@ const createProject= async (req, res) => {
 const getAllProjects = async (req, res) => {
     try {
         const projects = await Project.find({});
-        res.status(200).json("projects fetched successfully",projects);
+        res.status(200).json(projects);
     } catch (error) {
         console.log("Error while fetching projects", error);
     }
