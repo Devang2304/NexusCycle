@@ -12,6 +12,7 @@ import About from './pages/About';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminStakeholder from './pages/Admin/AdminStakeholder';
 import AdminUsers from './pages/Admin/AdminUsers';
+import ProjectList from './components/ScrumMaster/ProjectList';
 
 function App() {
   const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <div className="App">
+      <ProjectList/>
       {
         user === null && <>
           <Routes>
