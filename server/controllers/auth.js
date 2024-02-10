@@ -3,6 +3,7 @@ const Admin = require('../models/Admin');
 const ScrumMaster = require('../models/ScrumMaster');
 const Developer = require('../models/Developer');
 const ProductOwner = require('../models/ProductOwner'); 
+const Project = require('../models/Project');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 

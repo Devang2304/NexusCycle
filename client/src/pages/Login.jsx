@@ -10,7 +10,7 @@ import signup from "../assets/signup.png";
 export default function Login({ setIsAuth }) {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    document.title = "Sangrah | Login";
+    document.title = "Login";
   }, []);
   const { token, setToken, setUser } = useContext(UserContext);
   const [localUser, setLocalUser] = useState({ email: "", password: "" });

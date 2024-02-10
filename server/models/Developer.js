@@ -34,6 +34,10 @@ const developerSchema = new mongoose.Schema({
             default: null
         }
     ],
+    company: {
+        type: String,
+        required: true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Developer", developerSchema);
