@@ -13,6 +13,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminStakeholder from './pages/Admin/AdminStakeholder';
 import AdminUsers from './pages/Admin/AdminUsers';
 import AdminMain from './pages/Admin/AdminMain';
+import ProjectList from './components/ScrumMaster/ProjectList';
 import ProductOwnerMain from './pages/ProductOwner/ProductOwnerMain';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <div className="App">
+      <ProjectList/>
       {
         user === null && <>
           <Routes>
