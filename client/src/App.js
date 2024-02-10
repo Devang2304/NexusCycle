@@ -16,6 +16,7 @@ import AdminMain from './pages/Admin/AdminMain';
 import ProjectList from './components/ScrumMaster/ProjectList';
 import ProductOwnerMain from './pages/ProductOwner/ProductOwnerMain';
 import ScrumMasterMain from './pages/ScrumMaster/ScrumMasterMain';
+import DeveloperMain from './pages/Developer/DeveloperMain';
 
 function App() {
   const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
@@ -48,6 +49,11 @@ function App() {
       {
         user !== null && user.role === 'productowner' && <>
           <ProductOwnerMain />
+        </>
+      }
+      {
+        user!==null&&user.role==='developer'&&<>
+          <DeveloperMain/>
         </>
       }
 
