@@ -15,7 +15,8 @@ export default function UserContextProvider({ children }) {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`
-        }
+        },
+        body: JSON.stringify({ email: user.email})
       })
       if (response.status === 200) {
         const data = await response.json()
