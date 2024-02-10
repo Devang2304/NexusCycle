@@ -11,6 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import UsersTable from '../../components/Admin/UsersTable';
 
 export default function AdminUsers() {
   const { token, user } = useContext(UserContext);
@@ -60,6 +61,7 @@ export default function AdminUsers() {
       <Button variant="contained" onClick={handleClickOpen}>
         Add Account
       </Button>
+      <UsersTable />
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit}>
           <DialogTitle>New Account</DialogTitle>

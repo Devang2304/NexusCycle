@@ -105,6 +105,32 @@ const login = async (req, res) => {
             const accessToken = jwt.sign({ id: customer._id, email: customer.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
             res.status(200).json({ ...others, accessToken });
         }
+        else if(req.body.role==="developer"){
+            const developer = await Developer.findOne({ email: req.body.email });
+            if(!developer){
+                return res.status(404).json("developer not found");
+            }
+            const validPassword = await bcrypt.compare(req.body.password, developer.password);
+            if(!validPassword){
+                return res.status(400).json("wrong password");
+            }
+            const { password, ...others } = developer._doc;
+            const accessToken = jwt.sign({ id: developer._id, email: developer.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
+            res.status(200).json({ ...others, accessToken });
+        }
+        else if(req.body.role==="scrummaster"){
+            const scrumMaster = await ScrumMaster.findOne({ email: req.body.email });
+            if(!scrumMaster){
+                return res.status(404).json("scrum master not found");
+            }
+            const validPassword = await bcrypt.compare(req.body.password, scrumMaster.password);
+            if(!validPassword){
+                return res.status(400).json("wrong password");
+            }
+            const { password, ...others } = scrumMaster._doc;
+            const accessToken = jwt.sign({ id: scrumMaster._id, email: scrumMaster.email }, process.env.SECRET_KEY, { expiresIn: "5d" });
+            res.status(200).json({ ...others, accessToken });
+        }
     }
     catch (err) {
         console.log(err)
