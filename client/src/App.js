@@ -12,14 +12,15 @@ import About from './pages/About';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminStakeholder from './pages/Admin/AdminStakeholder';
 import AdminUsers from './pages/Admin/AdminUsers';
+import AdminMain from './pages/Admin/AdminMain';
 import ProjectList from './components/ScrumMaster/ProjectList';
 
 function App() {
   const { token, setToken, isAuth, setIsAuth, setUser, user } = useContext(UserContext)
 
-  useEffect(()=>{
-    console.log("user=",user)
-  },[user])
+  useEffect(() => {
+    console.log("user=", user)
+  }, [user])
 
   return (
     <div className="App">
@@ -34,12 +35,8 @@ function App() {
         </>
       }
       {
-        user.role === 'admin' && <>
-          <Routes>
-            <Route path='/' element={<AdminDashboard />} />
-            <Route path='/allusers' element={<AdminUsers />} />
-            <Route path='/allstakeholder' element={<AdminStakeholder />} />
-          </Routes>
+        user !== null && user.role === 'admin' && <>
+          <AdminMain />
         </>
       }
 
