@@ -21,7 +21,7 @@ const productOwnerSchema = new mongoose.Schema(
         },
         profilePicture: {
             type: String,
-            default: ""
+            default:""
         },
         role: {
             type: String,

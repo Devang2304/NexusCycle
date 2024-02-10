@@ -37,6 +37,10 @@ const scrumMasterSchema = new mongoose.Schema({
     company: {
         type: String,
         required: true
+    },
+    admin_email: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 

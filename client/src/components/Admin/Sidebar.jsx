@@ -67,11 +67,11 @@ export default function Sidebar({ children }) {
                                     <ListItemText primary='All Users' />
                                 </ListItemButton>
                             </NavLink>
-                            <NavLink to='/admin/allstakeholder' exact>
+                            {/* <NavLink to='/admin/allstakeholder' exact>
                                 <ListItemButton>
                                     <ListItemText primary='All Stakeholders' />
                                 </ListItemButton>
-                            </NavLink>
+                            </NavLink> */}
                         </List>
                     </Box>
                 </Drawer>
