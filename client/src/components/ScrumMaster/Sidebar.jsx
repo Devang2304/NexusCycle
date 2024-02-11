@@ -45,7 +45,7 @@ export default function Sidebar({ children }) {
                     <Toolbar />
                     <Box sx={{ overflow: 'auto' }}>
                         <List>
-                            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                            {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                                 <ListItem key={text} disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon>
@@ -54,21 +54,19 @@ export default function Sidebar({ children }) {
                                         <ListItemText primary={text} />
                                     </ListItemButton>
                                 </ListItem>
-                            ))}
+                            ))} */}
+                            <ListItemButton>
+                                <Link to='/' className='w-full'>
+                                    <ListItemText primary='Dashboard' />
+                                </Link>
+                            </ListItemButton>
+                            <ListItemButton>
+                                <Link to='/video-call' className='w-full'>
+                                    <ListItemText primary='Video Call' />
+                                </Link>
+                            </ListItemButton>
                         </List>
-                        <Divider />
-                        <List>
-                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
+
                     </Box>
                 </Drawer>
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

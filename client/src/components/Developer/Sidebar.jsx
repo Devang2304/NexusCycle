@@ -56,6 +56,14 @@ export default function Sidebar({ children }) {
                                     <ListItemText primary="All projects" />
                                 </ListItemButton>
                             </NavLink>
+                            <NavLink to='/video-call'>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <DescriptionIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Video Call" />
+                                </ListItemButton>
+                            </NavLink>
                         </List>
                         <Divider />
                         {/* <List>

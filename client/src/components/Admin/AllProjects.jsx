@@ -5,6 +5,7 @@ import { UserContext } from '../../context/UserContext';
 export default function AllProjects() {
     const {token,user} = useContext(UserContext);
     const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(false);
     // const [rows, setRows] = useState([{
     //     _id: "1",
     //     name: "Project 1",
@@ -33,11 +34,13 @@ export default function AllProjects() {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/projects`, {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(user.email)
+            body: JSON.stringify({ email: user.email , name:"shubham"})
         })
         const data = await response.json();
+        console.log(data)
         setRows(data);
         setLoading(false);
     }

@@ -1,6 +1,6 @@
-import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
+import React, { useState, useEffect } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -8,18 +8,28 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ScrumMasterMain from './ScrumMasterMain';
 import { Link } from 'react-router-dom';
+import {getAllProjectsByScrumMaster} from '../../api/api'
 
 export default function ScrumMasterDashboard(){
-  // Sample projects data (replace this with your actual data)
-  const projects = [
-    { id: 1, name: 'Project 1', status: 'Pending' },
-    { id: 2, name: 'Project 2', status: 'Confirmed' },
-    { id: 3, name: 'Project 4', status: 'Pending' },
-    { id: 4, name: 'Project 3', status: 'Confirmed' },
-    { id: 5, name: 'Project 5', status: 'Pending' },
-    { id: 6, name: 'Project 6', status: 'Confirmed' },
-    // Add more projects as needed
-  ];
+  const [projects, setProjects] = useState([]);
+
+  
+  const fetchProjects = async () => {
+    try {
+
+      const response = await getAllProjectsByScrumMaster();
+      // const data = await response.json();
+      console.log(response);
+      setProjects(response.data); 
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    }
+  };
+
+  // Fetch projects when the component mounts
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   const pendingProjects = projects.filter((project) => project.status === 'Pending');
   const confirmedProjects = projects.filter((project) => project.status === 'Confirmed');
@@ -43,7 +53,7 @@ export default function ScrumMasterDashboard(){
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>
                     {/* Use Link to create a hyperlink to the project page */}
-                    <Link to={`/project/${project.id}`} className="hover:text-400">
+                    <Link to={`/project/${project._id}`} className="hover:text-400">
                       {project.name}
                     </Link>
                   </TableCell>
@@ -86,6 +96,3 @@ export default function ScrumMasterDashboard(){
     </div>
   );
 };
-
-
-

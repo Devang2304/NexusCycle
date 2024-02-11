@@ -23,7 +23,7 @@ export default function Sidebar({ children }) {
     const { logout } = useContext(UserContext);
     return (
         <>
-            <Box sx={{ display: 'flex',minHeight:'100vh' }}>
+            <Box sx={{ display: 'flex', minHeight: '100vh' }}>
                 <CssBaseline />
                 <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Toolbar>
@@ -38,12 +38,12 @@ export default function Sidebar({ children }) {
                     sx={{
                         width: drawerWidth,
                         flexShrink: 0,
-                        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', bgcolor: '#fafafa'},
+                        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', bgcolor: '#fafafa' },
                     }}
                 >
                     <Toolbar />
                     <Box sx={{ overflow: 'auto' }}>
-                        <List>
+                        {/* <List>
                             {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                                 <ListItem key={text} disablePadding>
                                     <ListItemButton>
@@ -54,30 +54,29 @@ export default function Sidebar({ children }) {
                                     </ListItemButton>
                                 </ListItem>
                             ))}
-                        </List>
-                        <Divider />
+                        </List> */}
                         <List>
-                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
+                            <ListItemButton>
+                                <Link to='/' className='w-full'>
+                                    <ListItemText primary='Dashboard' />
+                                </Link>
+                            </ListItemButton>
+                            <ListItemButton>
+                                <Link to='/video-call' className='w-full'>
+                                    <ListItemText primary='Video Call' />
+                                </Link>
+                            </ListItemButton>
                         </List>
                     </Box>
-                </Drawer>
+                </Drawer >
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <div className='mt-14'></div>
                     {/* <div style={{ minHeight: '100vh' }}> */}
 
-                        {children}
+                    {children}
                     {/* </div> */}
                 </Box>
-            </Box>
+            </Box >
         </>
     )
 }
