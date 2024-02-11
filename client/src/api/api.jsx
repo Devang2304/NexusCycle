@@ -68,7 +68,7 @@ export const createProject = (data) => {
 
 export const getAllProjectsByOwner = (data) => {
     try {
-        return axios.get(`${URL}/productOwner/getAllProjects`, data);
+        return axios.post(`${URL}/productOwner/getAllProjects`, data);
     } catch (error) {
         console.log("Error while fetching projects", error);
     }

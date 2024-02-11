@@ -11,7 +11,7 @@ export default function ScrumMasterMain() {
                 <Routes>
                     <Route path='/' element={<ScrumMasterDashboard />} />
                     {/* param route with project id to give details of the project              <<<<-------------EDIT HERE*/}
-                    <Route path='/project/1234' element={<ProjectList />} />
+                    <Route path='/xyz' element={<ProjectList />} />
                 </Routes>
             </Sidebar>
         </>

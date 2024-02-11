@@ -9,8 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ProductModal from '../../components/ProductOwner/ProductModal'
 import { getAllProjectsByOwner } from '../../api/api';
+import { UserContext } from '../../context/UserContext';
+import { useContext } from 'react';
 
 export default function ProductOwnerDashboard() {
+  const {token,user} = useContext(UserContext);
   // Sample projects data (replace this with your actual data)
   const [projectData, setProjectData] = useState([]);
   const [filter, setFilter] = useState('All'); // 'All', 'Completed', 'In Progress'
@@ -19,7 +22,12 @@ export default function ProductOwnerDashboard() {
 
     const fetchData = async () => {
       try {
-        const projectData = await getAllProjectsByOwner();
+        const data={
+          email:user.email,
+          name:user.name
+        };
+        console.log(data);
+        const projectData = await getAllProjectsByOwner(data);
         setProjectData(projectData.data);
       } catch (error) {
         console.error('Error fetching projects:', error);
