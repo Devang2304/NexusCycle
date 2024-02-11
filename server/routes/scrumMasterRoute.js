@@ -4,8 +4,8 @@ const verifyToken= require('../middleware/verifyToken');
 
 const { getAllProjects, assignProjects } = require('../controllers/scrumMasterController');
 
-router.get('/getAllProjects', verifyToken, getAllProjects);
-router.post('/assignProjects', verifyToken, assignProjects);
+router.get('/getAllProjects', getAllProjects);
+router.post('/assignProjects', assignProjects);
 
 
 module.exports = router;

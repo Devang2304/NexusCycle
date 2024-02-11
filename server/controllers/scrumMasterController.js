@@ -3,10 +3,10 @@ const Project = require('../models/Project');
 
 const getAllProjects = async (req, res) => {
     try {
-        const projects = await Project.find({});
-        res.status(200).json("projects fetched successfully",projects);
+        const projects = await Project.find({admin_email});
+        res.status(200).json(projects);
     } catch (error) {
-        res.status(500).json("Error while fetching projects", error);
+        res.status(500).json(error);
     }
 }
 

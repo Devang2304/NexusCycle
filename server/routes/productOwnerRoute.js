@@ -5,7 +5,7 @@ const {createProject, getAllProjects} = require('../controllers/productOwnerCont
 // const verifyToken = require('../middleware/verifyToken');
 
 router.post('/createProject', createProject);
-router.get('/getAllProjects', getAllProjects);
+router.post('/getAllProjects', getAllProjects);
 
 
 module.exports = router
