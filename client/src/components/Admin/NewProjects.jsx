@@ -152,6 +152,7 @@ export default function NewProjects() {
                         Project Details
                     </Typography>
                     {selectedProject && (
+                        
                         <div>
                             <p>Name: {selectedProject.name}</p>
                             <p>Owner Email: {selectedProject.owner_email}</p>
