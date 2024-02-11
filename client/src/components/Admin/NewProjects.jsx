@@ -45,14 +45,18 @@ export default function NewProjects() {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/newProjects`, {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json" // Add this header for JSON content
             },
-            body: JSON.stringify(user.email)
-        })
+            body: JSON.stringify({ email: user.email }) // Pass an object here
+        });
         const data = await response.json();
+        console.log(data);
+        console.log("received data");
         setRows(data);
         setLoading(false);
     }
+    
 
     useEffect(()=>{
         fetchNewProjects();
@@ -74,9 +78,20 @@ export default function NewProjects() {
     const [selectedProject, setSelectedProject] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
-    const handleRejectProject = (id) => {
+    const handleRejectProject = async (id) => {
         // Handle rejection logic here, you can update the state or perform any other action
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/rejectProject`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json" // Add this header for JSON content
+            },
+            body: JSON.stringify({ id }) // Pass an object here
+        });
+        const data = await response.json();
+        console.log(data);
         console.log("Project rejected:", id);
+        fetchNewProjects();
     };
 
     const handleProjectClick = (id) => {
@@ -94,14 +109,14 @@ export default function NewProjects() {
     }
 
     const columns = [
-        { field: 'name', headerName: 'Name', width: 150, renderCell: (params) => <button onClick={() => handleProjectClick(params.row._id)}>{params.value}</button> },
+        { field: 'name', headerName: 'Name', width: 150, renderCell: (params) => <button className='underline' onClick={() => handleProjectClick(params.row._id)}>{params.value}</button> },
         { field: 'owner_email', headerName: 'Owner Email', width: 150 },
         {
             field: 'reject',
             headerName: 'Reject',
             width: 120,
             renderCell: (params) => (
-                <button onClick={() => handleRejectProject(params.row._id)}>Reject</button>
+                <button className='bg-red-400 py-2 px-3 rounded-lg' onClick={() => handleRejectProject(params.row._id)}>Reject</button>
             ),
         },
         {
@@ -109,7 +124,7 @@ export default function NewProjects() {
             headerName: 'Assign',
             width: 120,
             renderCell: (params) => (
-                <button onClick={()=>handleClickOpen(params.row._id)}>Assign</button>
+                <button className='bg-green-300 py-2 px-3 rounded-lg' onClick={()=>handleClickOpen(params.row._id)}>Assign</button>
             ),
         }
     ];
