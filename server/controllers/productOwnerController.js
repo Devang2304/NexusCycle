@@ -3,7 +3,8 @@ const Project = require('../models/Project');
 
 const createProject= async (req, res) => {
     try {
-        const project = new Project(req.body);
+        const project = {...req.body, pending: req.body.features}
+        new Project(req.body);
         await project.save();
         res.status(200).json({
         message: 'Project saved successfully',

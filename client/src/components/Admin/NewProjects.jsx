@@ -12,6 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
+import Analytics from '../Analytics'
 
 export default function NewProjects() {
     const { token ,user} = useContext(UserContext);
@@ -64,8 +65,16 @@ export default function NewProjects() {
 
     const [open, setOpen] = React.useState(false);
     const [activeProject, setActiveProject] = useState(null);
-    const handleClickOpen = (id) => {
+    const handleClickOpen = async(id) => {
         setActiveProject(id);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/getchartdata`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json" // Add this header for JSON content
+            },
+            body: JSON.stringify({id}) // Pass an object here
+        });
         setOpen(true);
         console.log("id=",id);
         //write a function to assign the project to the scrum master and change status
@@ -148,11 +157,12 @@ export default function NewProjects() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4, width: 400 }}>
+                    <Analytics />
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Project Details
                     </Typography>
                     {selectedProject && (
-                        
+
                         <div>
                             <p>Name: {selectedProject.name}</p>
                             <p>Owner Email: {selectedProject.owner_email}</p>

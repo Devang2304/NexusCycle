@@ -34,6 +34,18 @@ const projectSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "Pending"
+    },
+    pending:{
+        type: Array,
+        default: []
+    },
+    assigned:{
+        type: Array,
+        default: []
+    },
+    completed:{
+        type: Array,
+        default: []
     }
 }, { timestamps: true });
 

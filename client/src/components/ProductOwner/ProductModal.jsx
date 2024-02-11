@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, TextField, Box, Typography } from '@mui/material';
 import { createProject } from '../../api/api';
 import { toast } from "react-toastify";
+import Analytics from '../Analytics';
 
 const ProductModal = ({ open, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -54,6 +55,7 @@ const ProductModal = ({ open, onClose, onSubmit }) => {
           p: 4,
         }}
       >
+        <Analytics />
         <Typography variant="h5" gutterBottom>
           Project Details
         </Typography>
