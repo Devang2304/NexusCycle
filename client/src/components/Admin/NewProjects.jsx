@@ -14,7 +14,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 export default function NewProjects() {
-    const { token ,user} = useContext(UserContext);
+    const { token, user } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
     // const [rows, setRows] = useState([{
     //     _id: "1",
@@ -56,20 +56,38 @@ export default function NewProjects() {
         setRows(data);
         setLoading(false);
     }
-    
 
-    useEffect(()=>{
+
+    useEffect(() => {
         fetchNewProjects();
-    },[])
+    }, [])
 
     const [open, setOpen] = React.useState(false);
     const [activeProject, setActiveProject] = useState(null);
-    const handleClickOpen = (id) => {
+    const handleClickOpen = (id, email) => {
         setActiveProject(id);
         setOpen(true);
-        console.log("id=",id);
-        //write a function to assign the project to the scrum master and change status
+        console.log("id=", id);
+        console.log("email=", email);
+        // You can call any function here that needs the project ID and email
+        // assignScrumMaster(id, email);
     };
+
+    const assignScrumMaster = async ( email) => {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/assignScrumMaster`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json" // Add this header for JSON content
+            },
+            body: JSON.stringify({ id:activeProject, email }) // Pass an object here
+        });
+        const data = await response.json();
+        console.log(data);
+        console.log("Scrum master assigned:", activeProject, email);
+        fetchNewProjects();
+    };
+
     const handleClose = () => {
         setOpen(false);
         setActiveProject(null);
@@ -104,9 +122,6 @@ export default function NewProjects() {
         setOpenModal(false);
     };
 
-    const assignScrumMaster = (projectId, email) => {
-        console.log("Assigning scrum master to project:", projectId, "with email:", email);
-    }
 
     const columns = [
         { field: 'name', headerName: 'Name', width: 150, renderCell: (params) => <button className='underline' onClick={() => handleProjectClick(params.row._id)}>{params.value}</button> },
@@ -124,7 +139,7 @@ export default function NewProjects() {
             headerName: 'Assign',
             width: 120,
             renderCell: (params) => (
-                <button className='bg-green-300 py-2 px-3 rounded-lg' onClick={()=>handleClickOpen(params.row._id)}>Assign</button>
+                <button className='bg-green-300 py-2 px-3 rounded-lg' onClick={() => handleClickOpen(params.row._id)}>Assign</button>
             ),
         }
     ];
@@ -132,7 +147,7 @@ export default function NewProjects() {
     return (
         <>
             <h1 className='text-3xl mt-10 mb-3'>New Projects</h1>
-            {!loading&&<div style={{ height: 400, width: '100%' }}>
+            {!loading && <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     sx={{ maxWidth: '100%' }}
                     rows={rows}
@@ -169,9 +184,9 @@ export default function NewProjects() {
                     onSubmit: (event) => {
                         event.preventDefault();
                         const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries(formData.entries());
-                        const email = formJson.email;
-                        assignScrumMaster(activeProject, email);
+                        const email = formData.get('email'); // Get the value of the email input field
+                        console.log("submitting", email);
+                        assignScrumMaster( email); // Call handleClickOpen with project ID and email
                         handleClose();
                     },
                 }}
@@ -198,6 +213,7 @@ export default function NewProjects() {
                     <Button type="submit">Assign</Button>
                 </DialogActions>
             </Dialog>
+
         </>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DndContext, closestCorners, useSensor } from "@dnd-kit/core";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -14,7 +14,15 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { Input } from '@mui/material';
 
+import Paper from '@mui/material/Paper';
 import {
   KeyboardSensor,
   useSensors,
@@ -22,12 +30,13 @@ import {
 } from "@dnd-kit/core";
 
 export default function ProjectList() {
-  const selected_developers=[];
+  const selected_developers = [];
   const project = {
     name: "Sample Project",
     description:
       "This is a sample project description. Replace it with the actual project details.",
   };
+
 
   const [features, setFeatures] = useState([
     { id: 1, text: "abcde" },
@@ -38,6 +47,10 @@ export default function ProjectList() {
   ]);
 
   const [droppedFeatures, setDroppedFeatures] = useState([]);
+  useEffect(() => {
+    console.log("droppedFeatures", droppedFeatures)
+  }, [droppedFeatures])
+
   const Column = ({ features }) => {
     return (
       <div className="flex-1 p-4">
@@ -56,8 +69,8 @@ export default function ProjectList() {
       </div>
     );
   };
-  
-  
+
+
   const DroppedBox = () => {
     return (
       <div className="flex-1 p-4">
@@ -74,10 +87,10 @@ export default function ProjectList() {
       </div>
     );
   };
-  
-  
-  
-  
+
+
+
+
 
   const addTask = (text) => {
     setFeatures((features) => [
@@ -106,32 +119,33 @@ export default function ProjectList() {
       </div>
     );
   };
-  
+
 
   const getTaskPos = (id) =>
     features.findIndex((feature) => feature.id === id);
 
-    const handleDragEnd = (event) => {
-      const { active, over } = event;
-    
-      if (active.id === over.id) return;
-    
-      const originalPos = getTaskPos(active.id);
-      const newPos = getTaskPos(over.id);
-    
-      const movedFeature = features[originalPos];
-    
-      // Update the features array after removing the dragged feature
-      setFeatures((prevFeatures) =>
-        prevFeatures.filter((_, index) => index !== originalPos)
-      );
-    
-      // Add the dragged feature to the droppedFeatures array
-      setDroppedFeatures((prevDroppedFeatures) => [
-        ...prevDroppedFeatures,
-        movedFeature,
-      ]);
-    };
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+
+    const originalPos = getTaskPos(active.id);
+    const newPos = getTaskPos(over.id);
+
+    const movedFeature = features[originalPos];
+
+    // Update the features array after removing the dragged feature
+    setFeatures((prevFeatures) =>
+      prevFeatures.filter((_, index) => index !== originalPos)
+    );
+
+    // Add the dragged feature to the droppedFeatures array
+    setDroppedFeatures((prevDroppedFeatures) => [
+      ...prevDroppedFeatures,
+      { text: movedFeature.text, user: "" },
+    ]);
+  };
+
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -146,18 +160,18 @@ export default function ProjectList() {
   const DeveloperDropdown = () => {
     const [selectedDevelopers, setSelectedDevelopers] = useState([]);
     const [tasks, setTasks] = useState({});
-    
+
     // Updated developer information in JSON format
     const allDevelopers = [
       { id: 100, name: "Developer 1" },
       { id: 2, name: "Developer 2" },
       { id: 3, name: "Developer 3" },
     ];
-  
+
     const handleSelectDeveloper = (event) => {
       setSelectedDevelopers(event.target.value);
     };
-  
+
     const handleAddTask = (developer) => {
       const userInput = prompt('Enter task:');
       if (userInput !== null) {
@@ -167,19 +181,19 @@ export default function ProjectList() {
         }));
       }
     };
-  
+
     const handleRemoveTask = (developerId, taskId) => {
       setTasks((prevTasks) => ({
         ...prevTasks,
         [developerId]: prevTasks[developerId].filter((task) => task.id !== taskId),
       }));
     };
-  
+
     useEffect(() => {
       console.log('Selected Developers:', selectedDevelopers);
       console.log('Tasks:', tasks);
     }, [selectedDevelopers, tasks]);
-  
+
     return (
       <div className="p-4">
         <div className="w-1/4 pr-2">
@@ -249,16 +263,16 @@ export default function ProjectList() {
     const [numberOfDays, setNumberOfDays] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
-  
+
     const handleNumberOfDaysChange = (event) => {
       const days = parseInt(event.target.value, 10);
       setNumberOfDays(days);
-  
+
       const newEndDate = new Date(startDate);
       newEndDate.setDate(startDate.getDate() + days);
       setEndDate(newEndDate);
     };
-  
+
     return (
       <div className="ml-5 w-1/2 flex pr-2">
         Enter Number of days of Sprint:
@@ -286,14 +300,45 @@ export default function ProjectList() {
       >
         {/* <Input onSubmit={addTask} /> */}
         <div className="flex">
-        <Column features={features} className="w-1/2" />
-        <DroppedBox className="w-1/2" />
-      </div>
+          <Column features={features} className="w-1/2" />
+          <DroppedBox className="w-1/2" />
+        </div>
       </DndContext>
-      
-      <DeveloperDropdown/>
-      <NumberOfDaysInput/>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >         
+
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Task</TableCell>
+              <TableCell>User</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {droppedFeatures.map((row, index) => (
+              <TableRow
+                key={row.text}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.text}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  <Input type="text" value={row.user}
+                    onChange={(e) => {
+                      const updatedDroppedFeatures = [...droppedFeatures];
+                      updatedDroppedFeatures[index].user = e.target.value;
+                      setDroppedFeatures(updatedDroppedFeatures);
+                    }} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* <DeveloperDropdown/> */}
+      <NumberOfDaysInput />
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
         Submit
       </button>
     </>
