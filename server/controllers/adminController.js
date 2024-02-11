@@ -18,6 +18,7 @@ const getAllProjects = async (req, res) => {
 }
 
 const getOnlyNewProjects = async (req, res) => {
+    console.log(req.body.email)
     try {
         const email = req.body.email;
         const projects = await Project.find({ admin_email: email, status: "Pending" });
@@ -122,6 +123,17 @@ const getAllAccount = async (req, res) => {
     }
 }
 
+const rejectProject = async (req, res) => {
+    try {
+        const project = await Project.findById(req.body.id);
+        project.status = "Rejected";
+        await project.save();
+        res.status(200).json(project);
+    } catch (error) {
+        res.status(404).json("Error while rejecting project", error);
+    }
+}
+
 module.exports = {
     getAllProjects,
     getOnlyNewProjects,
@@ -129,5 +141,6 @@ module.exports = {
     addScrumMaster,
     assignScrumMaster,
     addAccount,
-    getAllAccount
+    getAllAccount,
+    rejectProject,
 };
