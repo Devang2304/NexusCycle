@@ -9,6 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import { useParams } from 'react-router-dom'
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -22,7 +23,7 @@ function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-export default function SelectAllTransferList() {
+export default function CurrProject({details}){
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState([0, 1, 2, 3]);
   const [right, setRight] = React.useState([4, 5, 6, 7]);
@@ -129,7 +130,7 @@ export default function SelectAllTransferList() {
             }}
           />
         }
-        title={title}
+        title={details.title}
         subheader={`${numberOfChecked(items)}/${items.length} selected`}
       />
       <Divider />
@@ -197,8 +198,8 @@ export default function SelectAllTransferList() {
   return (
     <>
       <div style={styles.container}>
-        <h2 style={styles.name}>{name}</h2>
-        <p style={styles.description}>{description}</p>
+        <h2 style={styles.name}>{details.name}</h2>
+        <p style={styles.description}>{details.description}</p>
       </div>
       <Grid
         container
@@ -292,3 +293,4 @@ export default function SelectAllTransferList() {
     </>
   );
 }
+
