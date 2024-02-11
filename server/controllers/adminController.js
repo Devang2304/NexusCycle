@@ -102,12 +102,15 @@ const addScrumMaster = async (req, res) => {
 
 const assignScrumMaster = async (req, res) => {
     const data = req.body;
+    console.log(data)
     try {
-        const project = await Project.findById(data.projectId);
-        project.scrumMaster = data.scrumMaster;
+        const project = await Project.findById(data.id);
+        project.scrumMaster = data.email;
+        project.status = "Assigned";
         await project.save();
         res.status(200).json(project);
     } catch (error) {
+        console.log(error)
         res.status(404).json("Error while assigning scrum master", error);
     }
 }
