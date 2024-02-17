@@ -19,6 +19,7 @@ app.use("/auth", require("./routes/authRoute"));
 app.use("/admin", require("./routes/adminRoute"));
 app.use("/productOwner", require("./routes/productOwnerRoute"));
 app.use("/scrumMaster", require("./routes/scrumMasterRoute"));
+app.use("/developer", require("./routes/developer"));
 // app.use("/user", require("./routes/userRoute"));
 
 connectDb().then(() => {
